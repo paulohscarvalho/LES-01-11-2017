@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html   xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<title>Gestão de Times</title>
+	</h:head>
+	<h:body>
+		<h1>Gestão de Times</h1>
+		<h:messages globalOnly="true"
+					showSummary="true" showDetail="false" tooltip="true"/>
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nome"/>
+				<h:panelGroup>
+					<h:inputText id="txtNome" value="#{teamMB.timeAtual.nome}" 
+								 validatorMessage="Nome do time deve conter entre 3 e 30 caracteres">
+						<f:validateLength minimum="3" maximum="30"/>
+					</h:inputText>
+					<h:message for="txtNome"/>
+				</h:panelGroup>
+				<h:outputLabel value="Nome do Estadio"/>
+				<h:inputText value="#{teamMB.timeAtual.estadio}" />
+				<h:outputLabel value="Data da Fundação"/>
+				<h:panelGroup>
+					<h:inputText id="txtData" value="#{teamMB.timeAtual.dataFundacao}"
+								 validator="#{teamMB.validaData}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:inputText>
+					<h:message for="txtData"/>
+				</h:panelGroup>
+				
+				<h:outputLabel value="Membros"/>
+				<h:panelGroup>
+					<h:inputText id="txtMembros" value="#{teamMB.timeAtual.membros}"
+								 validatorMessage="O time deve conter ao menos 50 membros">
+						<f:validateLongRange minimum="50"/>
+					</h:inputText>	
+					<h:message for="txtMembros"/>
+				</h:panelGroup>
+				<h:commandButton value="Adicionar" action="#{teamMB.adicionar}"/>
+				<h:commandButton value="Pesquisar" action="#{teamMB.pesquisar}"/>											
+			</h:panelGrid>
+			
+			<h:dataTable 	value="#{teamMB.times}" var="time" 
+							border="1"
+							rendered="#{teamMB.times.size() > 0}">
+				<h:column>
+					<h:outputText value="#{time.nome}"/>
+					<f:facet name="header">Nome do Time</f:facet>
+				</h:column>
+				<h:column>
+					<h:outputText value="#{time.estadio}"/>
+					<f:facet name="header">Estadio</f:facet>
+				</h:column>
+				<h:column>
+					<h:outputText value="#{time.dataFundacao}"/>
+					<f:facet name="header">Data de Fundacao</f:facet>
+				</h:column>
+				<h:column>
+					<h:outputText value="#{time.membros}"/>
+					<f:facet name="header">Numero de Membros</f:facet>
+				</h:column>
+			</h:dataTable>
+			
+		</h:form>	
+	</h:body>
+</html>
